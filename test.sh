@@ -15,6 +15,13 @@ function t {
 	else
 		echo "fail ($2)"
 	fi
+
+	echo -n "$1 (static files)... "
+	if curl --silent -I "$2/themes/default/style.css" | grep -q "max-age=86400" ; then
+		echo ok
+	else
+		echo "fail ($2)"
+	fi
 }
 t "nginx root" http://localhost:4080
 t "lighttpd root" http://localhost:4081

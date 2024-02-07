@@ -11,6 +11,14 @@ With the two repos checked out, `docker compose up` will run some configurations
 * http://localhost:4090/gallery - nginx with subdir
 * http://localhost:4091/gallery - lighttpd with subdir
 
+## Testing
+
+`./test.sh` will test, for each configuration:
+
+* niceurls work (`/nicetest` returns "ok")
+* uglyurls work (`/index.php?q=/nicetest` returns "ok")
+* cache headers work (static files should be cached for one day)
+
 ## Other Examples
 * Apache - https://github.com/intergalacticmonkey/shimmie2-apache-docker/
 
