@@ -4,4 +4,6 @@ the shimmie2-examples repo needs to be checked out adjacent to a shimmie2 checko
 
 `docker compose up` will then run some configurations:
 
-* http://localhost:4080 - nginx + php-fpm
+* http://localhost:4080 - nginx + remote php-fpm
+* http://localhost:4081 - lighttpd + local php-fpm
+

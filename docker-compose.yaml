@@ -8,8 +8,15 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ../shimmie2:/var/www/html
-  php:
+  php-fpm:
     image: php:8.2-fpm
     volumes:
       - ../shimmie2:/var/www/html
 
+  lighttpd:
+    build: lighttpd
+    ports:
+      - "4081:80"
+    volumes:
+      - ./lighttpd.conf:/etc/lighttpd.conf:ro
+      - ../shimmie2:/var/www/html
