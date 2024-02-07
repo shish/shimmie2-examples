@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "4080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../shimmie2:/var/www/html
+  php:
+    image: php:8.2-fpm
+    volumes:
+      - ../shimmie2:/var/www/html
+
