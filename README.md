@@ -8,6 +8,8 @@ With the two repos checked out, `docker compose up` will run some configurations
 * http://localhost:4080 - nginx + remote php-fpm
 * http://localhost:4081 - lighttpd + local php-fpm
 * http://localhost:4082 - varnish (caching proxy in front of nginx)
+* http://localhost:4090/gallery - nginx with subdir
+* http://localhost:4091/gallery - lighttpd with subdir
 
 ## Other Examples
 * Apache - https://github.com/intergalacticmonkey/shimmie2-apache-docker/

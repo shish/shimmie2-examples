@@ -8,10 +8,26 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ../shimmie2:/var/www/html
+    depends_on:
+      - php-fpm
   php-fpm:
     image: php:8.2-fpm
     volumes:
       - ../shimmie2:/var/www/html
+
+  nginx-subdir:
+    image: nginx:alpine
+    ports:
+      - "4090:80"
+    volumes:
+      - ./nginx-subdir.conf:/etc/nginx/nginx.conf:ro
+      - ../shimmie2:/var/www/html/gallery
+    depends_on:
+      - php-fpm-subdir
+  php-fpm-subdir:
+    image: php:8.2-fpm
+    volumes:
+      - ../shimmie2:/var/www/html/gallery
 
   lighttpd:
     build: lighttpd
@@ -21,9 +37,19 @@ services:
       - ./lighttpd.conf:/etc/lighttpd.conf:ro
       - ../shimmie2:/var/www/html
 
+  lighttpd-subdir:
+    build: lighttpd
+    ports:
+      - "4091:80"
+    volumes:
+      - ./lighttpd-subdir.conf:/etc/lighttpd.conf:ro
+      - ../shimmie2:/var/www/html/gallery
+
   varnish:
     image: varnish:latest
     ports:
       - "4082:80"
     volumes:
       - ./varnish.vcl:/etc/varnish/default.vcl:ro
+    depends_on:
+      - nginx
