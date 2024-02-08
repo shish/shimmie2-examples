@@ -1,6 +1,9 @@
 # shimmie2-examples
 
-the shimmie2-examples repo needs to be checked out adjacent to a shimmie2 checkout,
+A collection of example config files for running shimmie in an optimised way with
+various different web servers.
+
+The shimmie2-examples repo needs to be checked out adjacent to a shimmie2 checkout,
 ie each of these example web servers are configured to load the app from `../shimmie2/`
 
 With the two repos checked out, `docker compose up` will run some configurations:
