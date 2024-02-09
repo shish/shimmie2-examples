@@ -22,6 +22,21 @@ function t {
 	else
 		echo "fail ($2)"
 	fi
+
+	echo -n "$1 (niceslash)... "
+	if [ $(curl --silent "$2/nicedebug/foo%2Fbar/1") == '{"args":["nicedebug","foo%2Fbar","1"]}' ] ; then
+		echo ok
+	else
+		echo "fail ($2)"
+	fi
+
+	echo -n "$1 (uglyslash)... "
+	if [ $(curl --silent "$2/index.php?q=/nicedebug/foo%2Fbar/1") == '{"args":["nicedebug","foo%2Fbar","1"]}' ] ; then
+		echo ok
+	else
+		echo "fail ($2)"
+	fi
+
 }
 t "nginx root" http://localhost:4080
 t "lighttpd root" http://localhost:4081
