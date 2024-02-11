@@ -37,6 +37,12 @@ function t {
 		echo "fail ($2)"
 	fi
 
+	echo -n "$1 (encoded)... "
+	if [ "$(curl --silent "$2/index.php?q=nicedebug%2Fcake")" == '{"args":["nicedebug","cake"]}' ] ; then
+		echo ok
+	else
+		echo "fail ($2)"
+	fi
 }
 t "nginx root" http://localhost:4010
 t "nginx subdir" http://localhost:4011/gallery
