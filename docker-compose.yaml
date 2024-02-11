@@ -4,7 +4,7 @@ services:
   nginx:
     image: nginx:alpine
     ports:
-      - "4080:80"
+      - "4010:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ../shimmie2:/var/www/html
@@ -18,7 +18,7 @@ services:
   nginx-subdir:
     image: nginx:alpine
     ports:
-      - "4090:80"
+      - "4011:80"
     volumes:
       - ./nginx-subdir.conf:/etc/nginx/nginx.conf:ro
       - ../shimmie2:/var/www/html/gallery
@@ -32,7 +32,7 @@ services:
   lighttpd:
     build: lighttpd
     ports:
-      - "4081:80"
+      - "4020:80"
     volumes:
       - ./lighttpd.conf:/etc/lighttpd.conf:ro
       - ../shimmie2:/var/www/html
@@ -40,7 +40,7 @@ services:
   lighttpd-subdir:
     build: lighttpd
     ports:
-      - "4091:80"
+      - "4021:80"
     volumes:
       - ./lighttpd-subdir.conf:/etc/lighttpd.conf:ro
       - ../shimmie2:/var/www/html/gallery
@@ -48,8 +48,24 @@ services:
   varnish:
     image: varnish:latest
     ports:
-      - "4082:80"
+      - "4030:80"
     volumes:
       - ./varnish.vcl:/etc/varnish/default.vcl:ro
     depends_on:
       - nginx
+
+  apache:
+    build: apache
+    ports:
+      - "4040:80"
+    volumes:
+      - ../shimmie2:/var/www/html
+      - ./apache.vhost:/etc/apache2/sites-enabled/000-default.conf
+
+  apache-subdir:
+    build: apache
+    ports:
+      - "4041:80"
+    volumes:
+      - ../shimmie2:/var/www/html/gallery
+      - ./apache.vhost:/etc/apache2/sites-enabled/000-default.conf

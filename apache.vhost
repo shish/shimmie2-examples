@@ -1,0 +1,15 @@
+<VirtualHost *:80>
+	# You can enable these globally with a2enmod, or per-vhost like here
+	# Include conf-available/dir.conf
+	# Include conf-available/rewrite.conf
+	# Include conf-available/expires.conf
+	# Include conf-available/headers.conf
+	# Include conf-available/deflate.conf
+
+	# Where the source code is
+	DocumentRoot /var/www/html
+
+	# Needed if you want to search for
+	# tags with slashes in them
+	AllowEncodedSlashes NoDecode
+</VirtualHost>

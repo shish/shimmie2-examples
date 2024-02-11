@@ -8,11 +8,13 @@ ie each of these example web servers are configured to load the app from `../shi
 
 With the two repos checked out, `docker compose up` will run some configurations:
 
-* http://localhost:4080 - nginx + remote php-fpm
-* http://localhost:4081 - lighttpd + local php-fpm
-* http://localhost:4082 - varnish (caching proxy in front of nginx)
-* http://localhost:4090/gallery - nginx with subdir
-* http://localhost:4091/gallery - lighttpd with subdir
+* http://localhost:4010 - nginx + remote php-fpm
+* http://localhost:4011/gallery - nginx with subdir
+* http://localhost:4020 - lighttpd + local php-fpm
+* http://localhost:4021/gallery - lighttpd with subdir
+* http://localhost:4030 - varnish (caching proxy in front of nginx)
+* http://localhost:4040 - apache + mod\_php
+* http://localhost:4041/gallery - apache + mod\_php with subdir
 
 ## Testing
 
