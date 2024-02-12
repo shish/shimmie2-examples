@@ -21,8 +21,11 @@ With the two repos checked out, `docker compose up` will run some configurations
 `./test.sh` will test, for each configuration:
 
 * niceurls work (`/nicetest` returns "ok")
-* uglyurls work (`/index.php?q=/nicetest` returns "ok")
+* uglyurls work (`/index.php?q=nicetest` returns "ok")
 * cache headers work (static files should be cached for one day)
+* encoded slashes work in niceurls (`/nicedebug/foo%2Fbar/1`)
+* encoded slashes work in uglyurls (`/index.php?nicedebug/foo%2Fbar/1`)
+* urlencoded urls get decoded (`post%2Flist`)
 
 ## Other Examples
 * Apache - https://github.com/intergalacticmonkey/shimmie2-apache-docker/
