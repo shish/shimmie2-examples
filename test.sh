@@ -51,3 +51,4 @@ t "lighttpd subdir" http://localhost:4021/gallery
 t "varnish -> nginx root" http://localhost:4030
 t "apache root" http://localhost:4040
 t "apache subdir" http://localhost:4041/gallery
+# http_proxy=socks5h://localhost:4031 t "tor" http://$(docker compose exec tor cat /tor/hidden_services/shimmie/hostname):80

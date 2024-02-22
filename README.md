@@ -15,6 +15,7 @@ With the two repos checked out, `docker compose up` will run some configurations
 * http://localhost:4030 - varnish (caching proxy in front of nginx)
 * http://localhost:4040 - apache + mod\_php
 * http://localhost:4041/gallery - apache + mod\_php with subdir
+* Also a Tor hidden service - you'll need to look at `./tor/hostname` to figure out the hostname because it is uniquely generated each time. The Tor Proxy will be listening on port 4031
 
 ## Testing
 

@@ -1,5 +1,9 @@
 version: "3"
 
+volumes:
+  sockets:
+  tor:
+
 services:
   nginx:
     image: nginx:alpine
@@ -53,6 +57,34 @@ services:
       - ./varnish.vcl:/etc/varnish/default.vcl:ro
     depends_on:
       - nginx
+
+  tor:
+    image: barneybuffet/tor:latest
+    ports:
+      - "4031:9050"
+    volumes:
+      - sockets:/var/sockets
+      - tor:/tor/hidden_services/
+    depends_on:
+      - tor-nginx
+    environment:
+      TOR_SERVICE: true
+      TOR_SERVICE_HOSTS: 'shimmie=80:unix:/var/sockets/nginx.sock'
+      TOR_PROXY: true
+      TOR_PROXY_PORT: 0.0.0.0:9050
+      TOR_PROXY_ACCEPT: 'accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
+  tor-nginx:
+    image: nginx:alpine
+    volumes:
+      - sockets:/var/sockets
+      - ./tor-nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../shimmie2:/var/www/html
+    depends_on:
+      - tor-php-fpm
+  tor-php-fpm:
+    image: php:8.2-fpm
+    volumes:
+      - ../shimmie2:/var/www/html
 
   apache:
     build: apache
