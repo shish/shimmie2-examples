@@ -24,17 +24,6 @@ sub vcl_recv {
 		unset req.http.Cookie;
 	}
 
-	if(req.http.Cookie) {
-		# ignore UI cookies
-		set req.http.Cookie = regsuball(req.http.Cookie, "(^|;\s*)(ui-[a-z-]+)=[^;]*", "");
-		# Remove a ";" prefix, if present.
-		set req.http.Cookie = regsub(req.http.Cookie, "^;\s*", "");
-		# Remove empty cookies.
-		if (req.http.Cookie ~ "^\s*$") {
-			unset req.http.Cookie;
-		}
-	}
-
 	# images and thumbs never change; in both cases these should be
 	# cachable, but on the core server memory is tight so don't
 	# cache full size images
