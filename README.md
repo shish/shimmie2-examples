@@ -15,7 +15,34 @@ With the two repos checked out, `docker compose up` will run some configurations
 * http://localhost:4030 - varnish (caching proxy in front of nginx)
 * http://localhost:4040 - apache + mod\_php
 * http://localhost:4041/gallery - apache + mod\_php with subdir
+* http://localhost:4050 - nginx + oauth2-proxy + Keycloak
 * Also a Tor hidden service - you'll need to look at `./tor/hostname` to figure out the hostname because it is uniquely generated each time. The Tor Proxy will be listening on port 4031
+
+## OAuth2 Reverse Proxy
+
+The `oauth2-nginx` example runs Shimmie behind `oauth2-proxy`, with Keycloak
+as a local OpenID Connect provider:
+
+```bash
+docker compose up keycloak oauth2-proxy oauth2-nginx php-fpm
+```
+
+Before testing, enable Shimmie's `oauth2_login` extension and set these board
+config values:
+
+* Trust reverse proxy headers: enabled
+* Proxy username header: `X-Forwarded-User`
+* Proxy email header: `X-Forwarded-Email`
+* Auto-create OAuth2 users: enabled
+
+Then visit http://localhost:4050 and sign in through Keycloak with:
+
+* username: `shimmie-admin`
+* password: `password`
+
+This setup is only for local development. Replace all secrets, enable HTTPS,
+and ensure PHP-FPM is reachable only through the trusted reverse proxy before
+using the same pattern in production.
 
 ## Testing
 
