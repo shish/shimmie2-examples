@@ -1,0 +1,40 @@
+{
+  "realm": "shimmie",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "shimmie-local",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "local-dev-secret",
+      "redirectUris": [
+        "http://localhost:4050/oauth2/callback",
+        "http://localhost:4010/oauth2_login/callback"
+      ],
+      "webOrigins": [
+        "http://localhost:4050",
+        "http://localhost:4010"
+      ],
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true
+    }
+  ],
+  "users": [
+    {
+      "username": "shimmie-admin",
+      "enabled": true,
+      "email": "shimmie-admin@example.test",
+      "emailVerified": true,
+      "firstName": "Shimmie",
+      "lastName": "Admin",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}

@@ -19,6 +19,51 @@ services:
     volumes:
       - ../shimmie2:/var/www/html
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    command: start-dev --import-realm --hostname=keycloak.localhost --hostname-strict=false
+    ports:
+      - "8080:8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    volumes:
+      - ./oauth2-keycloak-realm.json:/opt/keycloak/data/import/shimmie-realm.json:ro
+    networks:
+      default:
+        aliases:
+          - keycloak.localhost
+
+  oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.7.1
+    command:
+      - --provider=keycloak-oidc
+      - --oidc-issuer-url=http://keycloak.localhost:8080/realms/shimmie
+      - --client-id=shimmie-local
+      - --client-secret=local-dev-secret
+      - --redirect-url=http://localhost:4050/oauth2/callback
+      - --cookie-secret=0123456789abcdef0123456789abcdef
+      - --cookie-secure=false
+      - --email-domain=*
+      - --http-address=0.0.0.0:4180
+      - --reverse-proxy=true
+      - --set-xauthrequest=true
+      - --pass-user-headers=true
+      - --skip-provider-button=true
+    depends_on:
+      - keycloak
+
+  oauth2-nginx:
+    image: nginx:alpine
+    ports:
+      - "4050:80"
+    volumes:
+      - ./oauth2-nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../shimmie2:/var/www/html
+    depends_on:
+      - php-fpm
+      - oauth2-proxy
+
   nginx-subdir:
     image: nginx:alpine
     ports:
