@@ -1,5 +1,3 @@
-version: "3"
-
 volumes:
   sockets:
   tor:
@@ -15,7 +13,7 @@ services:
     depends_on:
       - php-fpm
   php-fpm:
-    image: php:8.2-fpm
+    image: php:8.5-fpm
     volumes:
       - ../shimmie2:/var/www/html
 
@@ -29,12 +27,16 @@ services:
     depends_on:
       - php-fpm-subdir
   php-fpm-subdir:
-    image: php:8.2-fpm
+    image: php:8.5-fpm
     volumes:
       - ../shimmie2:/var/www/html/gallery
 
   lighttpd:
-    build: lighttpd
+    build:
+      dockerfile_inline: |
+        FROM alpine:3.23
+        RUN apk add lighttpd php85-cgi php85-pdo_sqlite php85-fileinfo
+        CMD ["lighttpd", "-D", "-f", "/etc/lighttpd.conf"]
     ports:
       - "4020:80"
     volumes:
@@ -42,7 +44,11 @@ services:
       - ../shimmie2:/var/www/html
 
   lighttpd-subdir:
-    build: lighttpd
+    build:
+      dockerfile_inline: |
+        FROM alpine:3.23
+        RUN apk add lighttpd php85-cgi php85-pdo_sqlite php85-fileinfo
+        CMD ["lighttpd", "-D", "-f", "/etc/lighttpd.conf"]
     ports:
       - "4021:80"
     volumes:
@@ -69,10 +75,10 @@ services:
       - tor-nginx
     environment:
       TOR_SERVICE: true
-      TOR_SERVICE_HOSTS: 'shimmie=80:unix:/var/sockets/nginx.sock'
+      TOR_SERVICE_HOSTS: "shimmie=80:unix:/var/sockets/nginx.sock"
       TOR_PROXY: true
       TOR_PROXY_PORT: 0.0.0.0:9050
-      TOR_PROXY_ACCEPT: 'accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16'
+      TOR_PROXY_ACCEPT: "accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16"
   tor-nginx:
     image: nginx:alpine
     volumes:
@@ -82,12 +88,15 @@ services:
     depends_on:
       - tor-php-fpm
   tor-php-fpm:
-    image: php:8.2-fpm
+    image: php:8.5-fpm
     volumes:
       - ../shimmie2:/var/www/html
 
   apache:
-    build: apache
+    build:
+      dockerfile_inline: |
+        FROM php:8.5-apache
+        RUN a2enmod dir rewrite expires headers deflate
     ports:
       - "4040:80"
     volumes:
@@ -95,7 +104,10 @@ services:
       - ./apache.vhost:/etc/apache2/sites-enabled/000-default.conf
 
   apache-subdir:
-    build: apache
+    build:
+      dockerfile_inline: |
+        FROM php:8.5-apache
+        RUN a2enmod dir rewrite expires headers deflate
     ports:
       - "4041:80"
     volumes:
