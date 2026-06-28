@@ -1,6 +1,7 @@
 vcl 4.1;
 
-import dynamic;  # dynamic backend DNS lookup
+import std;
+import directors;
 
 backend default {
 	.host = "nginx";
@@ -38,7 +39,6 @@ sub vcl_recv {
 sub vcl_hash {
 	if (req.url ~ "^/(_images|_thumbs)/") {
 		hash_data(regsub(req.url, "^/(_images|_thumbs)/([0-9a-f]{32})/.*", "\1/\2"));
-		return (lookup);
 	}
 }
 
@@ -95,7 +95,7 @@ sub vcl_backend_response {
 
 		# These pages are manually PURGEd when tags are updated
 		# or a comment is added
-		if(bereq.url ~ "^/post/view/\d+") {
+		if (bereq.url ~ "^/post/view/\d+") {
 			set beresp.ttl = 1d;
 		}
 

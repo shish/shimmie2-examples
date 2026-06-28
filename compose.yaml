@@ -4,7 +4,7 @@ volumes:
 
 services:
   nginx:
-    image: nginx:alpine
+    image: nginx:1.31
     ports:
       - "4010:80"
     volumes:
@@ -18,7 +18,7 @@ services:
       - ../shimmie2:/var/www/html
 
   nginx-subdir:
-    image: nginx:alpine
+    image: nginx:1.31
     ports:
       - "4011:80"
     volumes:
@@ -34,7 +34,7 @@ services:
   lighttpd:
     build:
       dockerfile_inline: |
-        FROM alpine:3.23
+        FROM alpine:3.24
         RUN apk add lighttpd php85-cgi php85-pdo_sqlite php85-fileinfo
         CMD ["lighttpd", "-D", "-f", "/etc/lighttpd.conf"]
     ports:
@@ -46,7 +46,7 @@ services:
   lighttpd-subdir:
     build:
       dockerfile_inline: |
-        FROM alpine:3.23
+        FROM alpine:3.24
         RUN apk add lighttpd php85-cgi php85-pdo_sqlite php85-fileinfo
         CMD ["lighttpd", "-D", "-f", "/etc/lighttpd.conf"]
     ports:
@@ -56,7 +56,7 @@ services:
       - ../shimmie2:/var/www/html/gallery
 
   varnish:
-    image: varnish:latest
+    image: varnish:9
     ports:
       - "4030:80"
     volumes:
