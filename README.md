@@ -19,7 +19,7 @@ With the two repos checked out, `docker compose up` will run some configurations
 
 ## Testing
 
-`./test.sh` will test, for each configuration:
+`./test.py` will test, for each configuration:
 
 * niceurls work (`/nicetest` returns "ok")
 * uglyurls work (`/index.php?q=nicetest` returns "ok")
@@ -30,4 +30,3 @@ With the two repos checked out, `docker compose up` will run some configurations
 
 ## Other Examples
 * Apache - https://github.com/intergalacticmonkey/shimmie2-apache-docker/
-

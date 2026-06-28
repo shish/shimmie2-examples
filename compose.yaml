@@ -13,7 +13,10 @@ services:
     depends_on:
       - php-fpm
   php-fpm:
-    image: php:8.5-fpm
+    build:
+      dockerfile_inline: |
+        FROM php:8.5-fpm
+        RUN apt update && apt install -y imagemagick
     volumes:
       - ../shimmie2:/var/www/html
 
@@ -27,7 +30,10 @@ services:
     depends_on:
       - php-fpm-subdir
   php-fpm-subdir:
-    image: php:8.5-fpm
+    build:
+      dockerfile_inline: |
+        FROM php:8.5-fpm
+        RUN apt update && apt install -y imagemagick
     volumes:
       - ../shimmie2:/var/www/html/gallery
 
@@ -88,7 +94,10 @@ services:
     depends_on:
       - tor-php-fpm
   tor-php-fpm:
-    image: php:8.5-fpm
+    build:
+      dockerfile_inline: |
+        FROM php:8.5-fpm
+        RUN apt update && apt install -y imagemagick
     volumes:
       - ../shimmie2:/var/www/html
 
