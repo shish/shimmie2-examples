@@ -139,7 +139,7 @@ services:
           - keycloak.localhost
 
   oauth2-proxy:
-    image: quay.io/oauth2-proxy/oauth2-proxy:v7.7.1
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.15.1
     command:
       - --provider=keycloak-oidc
       - --oidc-issuer-url=http://keycloak.localhost:8080/realms/shimmie
